@@ -1,4 +1,4 @@
-package com.restapi.emp.mapper;
+package com.restapi.emp.dto.mapper;
 
 import com.restapi.emp.dto.EmployeeDto;
 import com.restapi.emp.entity.Employee;
