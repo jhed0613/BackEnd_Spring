@@ -3,18 +3,19 @@ package com.restapi.emp.controller;
 import com.restapi.emp.dto.DepartmentDto;
 import com.restapi.emp.service.DepartmentService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/api/departments")
+@RequiredArgsConstructor
 public class DepartmentController {
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
     // Build Create or Add Department REST API
     @PostMapping
@@ -38,7 +39,8 @@ public class DepartmentController {
     }
 
     // Build Update Department REST API
-    @PutMapping("{id}")
+    // PUT 은 전체 매핑 ( SQL 쿼리가 전체를 SET 시킴 , Patch 는 내가 설정한 부분만 SET ( 엔티티에 다이나믹업데이트 어노테이션 추가) )
+    @PatchMapping("{id}")
     public ResponseEntity<DepartmentDto> updateDepartment(@PathVariable("id") Long departmentId,
                                                           @RequestBody DepartmentDto updatedDepartment){
         DepartmentDto departmentDto = departmentService.updateDepartment(departmentId, updatedDepartment);
@@ -49,7 +51,8 @@ public class DepartmentController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteDepartment(@PathVariable("id") Long departmentId){
         departmentService.deleteDepartment(departmentId);
-        return ResponseEntity.ok("Department deleted successfully!.");
+        String okMsg = String.format("department Id : %s ", departmentId);
+        return ResponseEntity.ok(okMsg);
     }
 
 }
